@@ -2,6 +2,7 @@ import React, { Component }  from "react";
 import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from "react-native";
 import styles, { colors } from './styles/index.style';
 import Slider from './scene/sliderbox';
+import Pic from './scene/pic';
 
 export const ImageBtn = ({ navigation }) => {
   
@@ -9,7 +10,7 @@ export const ImageBtn = ({ navigation }) => {
     <ScreenContainer>
       <Slider/>
       <View style={ styles.contain}>
-        <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('CA')} >
+        <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('SpecialEffects')} >
           <Image source={require('./assets/camera.png')} style={styles.imgiconstyle}/>
         </TouchableOpacity>
         <TouchableOpacity style={ styles.container2 } onPress={() => navigation.push('CA')} >
@@ -48,6 +49,13 @@ export const ImageBtn = ({ navigation }) => {
     );
   };
   
+  export const SpecialEffects =({ navigation }) => {
+    return(
+      <ScreenContainer>
+        <Pic/>
+      </ScreenContainer>
+    );
+  };
   
   const ScreenContainer = ({ children }) => (
     <View style={styles.container}>{children}</View>
