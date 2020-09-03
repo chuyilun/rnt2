@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { CA, ImageBtn, SpecialEffects } from '../Screens.js';
+import { CA, ImageBtn, SpecialEffects, FaceGame } from '../Screens.js';
 
 const AuthStack = createStackNavigator();
 
@@ -23,6 +23,11 @@ export default class Routes extends Component {
             <AuthStack.Screen
               name="SpecialEffects"
               component={SpecialEffects}
+              options={{ title:"Special you are!"}}
+            />
+            <AuthStack.Screen
+              name="FaceGame"
+              component={FaceGame}
               options={{ title:"Special you are!"}}
             />
           </AuthStack.Navigator>

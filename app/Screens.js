@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from "react-n
 import styles, { colors } from './styles/index.style';
 import Slider from './scene/sliderbox';
 import Pic from './scene/pic';
+import Game from './scene/game';
 
 export const ImageBtn = ({ navigation }) => {
   
@@ -18,7 +19,7 @@ export const ImageBtn = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={ styles.contain}>
-        <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('CA')} >
+        <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('FaceGame')} >
           <Image source={require('./assets/game.png')} style={styles.imgiconstyle}/>
         </TouchableOpacity>
         <TouchableOpacity style={ styles.container2 } onPress={() => navigation.push('CA')} >
@@ -35,7 +36,6 @@ export const ImageBtn = ({ navigation }) => {
         <Text> Sign </Text>
         <Button title="Sign" onPress={() => alert("gogo !")} />
         <Button title="Wow" onPress={() => navigation.push('CA')} />
-        
       </ScreenContainer>
     );
   };
@@ -57,6 +57,14 @@ export const ImageBtn = ({ navigation }) => {
     );
   };
   
+  export const FaceGame =({ navigation }) => {
+    return(
+      <ScreenContainer>
+        <Game/>
+      </ScreenContainer>
+    );
+  };
+
   const ScreenContainer = ({ children }) => (
     <View style={styles.container}>{children}</View>
   );
