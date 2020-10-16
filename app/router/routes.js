@@ -3,7 +3,6 @@ import { Router, Stack, Scene, Tabs, NavBar } from 'react-native-router-flux';
 import { StyleSheet, Text, Image, View, TextInput, Button, TouchableOpacity} from 'react-native';
 
 import Nav from '../scene/nav';
-import Slider from '../scene/sliderbox';
 
 
 export default class Routes extends Component {

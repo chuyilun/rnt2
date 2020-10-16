@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { CA, ImageBtn, SpecialEffects, FaceGame } from '../Screens.js';
+import { CA, ImageBtn, SpecialEffects, FaceGame, Compare, DrawCard } from '../Screens.js';
 
 const AuthStack = createStackNavigator();
 
@@ -16,9 +16,9 @@ export default class Routes extends Component {
               options={{ title:"ml2222"}}
             />
             <AuthStack.Screen
-              name="CA"
-              component={CA}
-              options={{ title:"create"}}
+              name="DrawCard"
+              component={DrawCard}
+              options={{ title:"抽抽"}}
             />
             <AuthStack.Screen
               name="SpecialEffects"
@@ -28,6 +28,11 @@ export default class Routes extends Component {
             <AuthStack.Screen
               name="FaceGame"
               component={FaceGame}
+              options={{ title:"Special you are!"}}
+            />
+            <AuthStack.Screen
+              name="Compare"
+              component={Compare}
               options={{ title:"Special you are!"}}
             />
           </AuthStack.Navigator>

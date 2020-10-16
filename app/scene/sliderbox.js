@@ -21,8 +21,6 @@ export default class Routes extends Component {
           <View  style={ styles.container }>
             <SliderBox 
               images={this.state.images}
-              onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
-              currentImageEmitter={index => console.warn(`current pos is: ${index}`)}
               resizeMode = { 'contain' }
               autoplay
               circleLoop

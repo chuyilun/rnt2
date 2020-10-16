@@ -35,6 +35,7 @@ export default class Routes extends Component {
 
     return (
       <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <Camera style={{ flex: 1 }} type={this.state.type}
         onFacesDetected={ this.handleFacesDetected }
         faceDetectorSettings={{
@@ -44,8 +45,9 @@ export default class Routes extends Component {
           minDetectionInterval: 100,
           tracking: true,
         }}>
-        
         </Camera>
+      </View>
+      <View style={{ flex: 2 }}></View>
       </View>
     );
   }
@@ -56,7 +58,7 @@ export default class Routes extends Component {
           faceDetected: true,
         });
         console.log({faces})
-        alert({faces})
+        // alert({faces})
       } else {
         this.setState({faceDetected: false });
       }
