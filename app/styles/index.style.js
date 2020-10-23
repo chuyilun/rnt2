@@ -39,7 +39,7 @@ export default StyleSheet.create({
   image: {
     width: 300, 
     height: 300, 
-    backgroundColor: 'gray',
+    // backgroundColor: 'gray',
   },
   image_d: {
     width: 350, 
@@ -108,6 +108,19 @@ export default StyleSheet.create({
     padding: 13,
     margin: 15,
     backgroundColor: '#dddddd',
+  },
+  coin: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width:50,
+    height:50,
+    resizeMode:'contain',
+  },
+  coinText: {
+    fontSize:30,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
 

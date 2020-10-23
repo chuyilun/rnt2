@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { CA, ImageBtn, SpecialEffects, FaceGame, Compare, DrawCard } from '../Screens.js';
+import { ImageBtn, SpecialEffects, FaceGame, Compare, DrawCard } from '../Screens.js';
 
 const AuthStack = createStackNavigator();
 

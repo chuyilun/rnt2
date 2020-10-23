@@ -37,7 +37,7 @@ export default class Pic extends React.Component {
 
     this.setState({status: 'Please Wait...'})
 
-    fetch('http://ddc407e876f6.ngrok.io/api', {
+    fetch('http://120.126.18.193:5000/api', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
