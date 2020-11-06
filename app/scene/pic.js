@@ -4,6 +4,7 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import PageScrollView from 'react-native-page-scrollview';
 import styles from '../styles/index.style';
+import firebase from '../../config';
 
 
 export default class Pic extends React.Component {
@@ -27,7 +28,10 @@ export default class Pic extends React.Component {
         require('../assets/park.jpg'),
         require('../assets/women.jpg'),
         require('../assets/war.jpg')
-      ]
+      ],
+      user:null,
+      email:null,
+      uid:null
     };
   }
 
@@ -110,14 +114,33 @@ export default class Pic extends React.Component {
    });
   }
 
+  get_data=()=>{ //取得使用者名稱
 
+    var user = firebase.auth().currentUser;
+    if (user != null) { this.setState({email: user.email , uid: user.uid}) };
+    var firebaseRef =  firebase.database().ref('/users/' + user.uid + '/username');
+
+    firebaseRef.on('value', snapshot => {
+      this.setState({
+        user : snapshot.val()
+      })
+      //console.log('firebase',snapshot.val);
+     });
+
+    //console.log('user', this.state.user);
+ 
+  }
+
+ // <Image style={styles.Pic_image} source={{ uri: this.state.image}} />
   //<Image style={styles.image} source={{ uri: 'data:image/jpeg;base64,'+this.state.image_64}} />
 
   render() {
     return (
     <View style={styles.Pic_container}>
       <View style={styles.container_pic}>
-        <Image style={styles.Pic_image} source={{ uri: this.state.image}} />
+         <TouchableOpacity style={styles.Pic_button} onPress={this.get_data}>
+            <Text style={styles.text}>{this.state.user}</Text>
+          </TouchableOpacity>
         <View style={styles.contain}>
           <TouchableOpacity style={styles.Pic_button} onPress={this.selectPicture}>
             <Text style={styles.text}>Gallery</Text>
