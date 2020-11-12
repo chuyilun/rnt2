@@ -4,7 +4,7 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import PageScrollView from 'react-native-page-scrollview';
 import styles from '../styles/index.style';
-import firebase from '../../config';
+import firebase from '../config';
 
 
 export default class Pic extends React.Component {

@@ -1,4 +1,4 @@
-import React, { Component }  from "react";
+import React, { Component, useState  }  from "react";
 import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from "react-native";
 import styles, { colors } from './styles/index.style';
 import Slider from './scene/sliderbox';
@@ -7,6 +7,52 @@ import Game from './scene/game';
 import FaceCompare from './scene/faceCompare';
 import Draw from './scene/drawCard';
 import TopMess from './scene/topMess';
+import Register from './scene/registerScreen';
+import Login from './scene/loginScreen';
+import * as firebase from 'firebase';
+  
+export const LoginScreen =({ navigation }) => {
+
+      const [errorMessage, seterrorMessage ] = useState(null)
+
+ function handleLogin() { //登入
+
+    // console.log(gemail)
+    // console.log(gpassword)
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(gemail, gpassword)
+      .catch(error => seterrorMessage({errorMessage: error.message}))
+
+      // console.log(email)
+      console.log(errorMessage)
+
+    if (errorMessage === null){
+      console.log('ssssss')
+      global.show = false
+      navigation.push('ImageBtn')
+    }
+  };
+  return(
+    <ScreenContainer>
+        <Login/>
+        <View >
+          <Text>{seterrorMessage}qqqq</Text>
+      </View>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={{ color: "#FFF", fontWeight:"500"}}>Sign in</Text>
+      </TouchableOpacity>
+        <TouchableOpacity 
+        style={{ alignSelf: "center",marginTop: 32}} 
+        onPress={() => navigation.push('RegisterScreen')}> 
+          <Text style={{color: "#414959", fontSize: 13}}>
+            New to APP?  <Text style={{fontWeight: "500",color: "#E9446A"}}>Sign up</Text>
+          </Text>
+        </TouchableOpacity>
+    </ScreenContainer>
+  );
+};
 
 export const ImageBtn = ({ navigation }) => {
   
@@ -50,7 +96,16 @@ export const ImageBtn = ({ navigation }) => {
       </ScreenContainer>
     );
   };
-  
+
+
+  export const RegisterScreen =({ navigation }) => {
+    return(
+      <ScreenContainer>
+          <Register/>
+      </ScreenContainer>
+    );
+  };
+
   export const DrawCard =({ navigation }) => {
     return(
       <ScreenContainer>

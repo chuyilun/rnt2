@@ -4,27 +4,23 @@ import * as firebase from 'firebase'
 
 export default class LoginScreen extends React.Component{
 
-    state = {
+  constructor(props){
+    super(props);
+    this.state = {
       email: "",
       Password: "",
       errorMessage: null
     }
+    global.gemail = null;
+    global.gpassword = null;
+  }
 
-    handleLogin = () =>{ //登入
-      const {email,password} = this.state
-
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .catch(error => this.setState({errorMessage: error.message}))
-    };
+  
 
   render() {
     return(
   <View style={StyleSheet.container}>
           <Text style={styles.greeting}>{'Hello again.\nWelcome back.'}</Text>
-        
-
       <View style={styles.errorMessage}>
          {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text>}
       </View>
@@ -35,7 +31,8 @@ export default class LoginScreen extends React.Component{
             <TextInput 
             style={styles.input} 
             autoCapitalize="none"
-            onChangeText={email => this.setState({email})}
+            onChangeText={(email) => { this.setState({email:email})
+                                       gemail = email}}
             value={this.state.email}
             ></TextInput>
          </View>
@@ -46,27 +43,15 @@ export default class LoginScreen extends React.Component{
        style={styles.input} 
        secureTextEntry 
        autoCapitalize="none" 
-       onChangeText={password => this.setState({password})}
+       onChangeText={(password) => {this.setState({password})
+                                    gpassword = password}}
        value={this.state.password}
        ></TextInput>
      </View>
    </View>
        
-      <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
-
-      <Text style={{ color: "#FFF", fontWeight:"500"}}>Sign in</Text>
-       </TouchableOpacity>
+      
     
-
-    <TouchableOpacity 
-          style={{ alignSelf: "center",marginTop: 32}} 
-          onPress={() => this.props.navigation.navigate("RegisterScreen")}
-    > 
-
-           <Text style={{color: "#414959", fontSize: 13}}>
-             New to APP?  <Text style={{fontWeight: "500",color: "#E9446A"}}>Sign up</Text>
-          </Text>
-      </TouchableOpacity>
    </View>
     );
   }
@@ -106,11 +91,11 @@ const styles = StyleSheet.create({
     textTransform:"uppercase"
   },
   input: {
-    borderBottomColor:"#8A8F9E",
+    borderBottomColor:"#fff",
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 40,
     fontSize: 15,
-    color: "#161F3D"
+    color: "#161F3D",
   },
   button: {
     marginHorizontal: 30,
