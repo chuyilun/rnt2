@@ -1,5 +1,6 @@
 import React, { Component, useState  }  from "react";
-import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from "react-native";
+import { View, Text, ImageBackground, TouchableOpacity, Image } from "react-native";
+import { Button } from 'react-native-paper';
 import styles, { colors } from './styles/index.style';
 import Slider from './scene/sliderbox';
 import Pic from './scene/pic';
@@ -11,11 +12,14 @@ import Register from './scene/registerScreen';
 import Login from './scene/loginScreen';
 import * as firebase from 'firebase';
   
-export const LoginScreen =({ navigation }) => {
+const image =  require('./assets/starsky.jpg') ;
 
+export const LoginScreen =({ navigation }) => {
+  const image =  require('./assets/starsky.jpg') ;
+  
       const [errorMessage, seterrorMessage ] = useState(null)
 
- function handleLogin() { //登入
+  function handleLogin() { //登入
 
     // console.log(gemail)
     // console.log(gpassword)
@@ -36,17 +40,14 @@ export const LoginScreen =({ navigation }) => {
   };
   return(
     <ScreenContainer>
-        <Login/>
-        <View >
-          <Text>{seterrorMessage}qqqq</Text>
-      </View>
+      <Login/>
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={{ color: "#FFF", fontWeight:"500"}}>Sign in</Text>
-      </TouchableOpacity>
+          <Text style={{ color: "#FFF", fontWeight:"500"}}>Sign in</Text>
+        </TouchableOpacity>
         <TouchableOpacity 
-        style={{ alignSelf: "center",marginTop: 32}} 
+        style={{ alignSelf: "center",marginTop: 32, }} 
         onPress={() => navigation.push('RegisterScreen')}> 
-          <Text style={{color: "#414959", fontSize: 13}}>
+          <Text style={{color: "#fff", fontSize: 13}}>
             New to APP?  <Text style={{fontWeight: "500",color: "#E9446A"}}>Sign up</Text>
           </Text>
         </TouchableOpacity>
@@ -55,7 +56,6 @@ export const LoginScreen =({ navigation }) => {
 };
 
 export const ImageBtn = ({ navigation }) => {
-  
     return(
     <ScreenContainer>
       
@@ -68,18 +68,18 @@ export const ImageBtn = ({ navigation }) => {
       <View style= {{flex:6}}>
         <View style={ styles.contain}>
           <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('SpecialEffects')} >
-            <Image source={require('./assets/camera.png')} style={styles.imgiconstyle}/>
+            <Image source={require('./assets/photo-camera.png')} style={styles.imgiconstyle}/>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.container2 } onPress={() => navigation.push('Compare')} >
-            <Image source={require('./assets/eye.png')} style={styles.imgiconstyle}/>
+            <Image source={require('./assets/team_0.png')} style={styles.imgiconstyle}/>
           </TouchableOpacity>
         </View>
         <View style={ styles.contain}>
           <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('FaceGame')} >
-            <Image source={require('./assets/game.png')} style={styles.imgiconstyle}/>
+            <Image source={require('./assets/rocket_index.png')} style={styles.imgiconstyle}/>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.container2 } onPress={() => navigation.push('DrawCard')} >
-            <Image source={require('./assets/wifi.png')} style={styles.imgiconstyle}/>
+            <Image source={require('./assets/lottery-game.png')} style={styles.imgiconstyle}/>
           </TouchableOpacity>
         </View> 
       </View>
@@ -139,6 +139,6 @@ export const ImageBtn = ({ navigation }) => {
   };
 
   const ScreenContainer = ({ children }) => (
-    <View style={styles.container}>{children}</View>
+    <View style={{flex: 1}}><ImageBackground source={image} style={styles.image1}>{children}</ImageBackground></View>
   );
   

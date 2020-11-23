@@ -1,6 +1,8 @@
 import React from "react";
-import {View,Text,StyleSheet,TextInput,TouchableOpacity} from "react-native";
-import * as firebase from 'firebase'
+import {View,Text,StyleSheet,TextInput,ImageBackground} from "react-native";
+import { Input } from 'react-native-elements';
+
+const image =  require('.././assets/starsky.jpg') ;
 
 export default class LoginScreen extends React.Component{
 
@@ -20,6 +22,7 @@ export default class LoginScreen extends React.Component{
   render() {
     return(
   <View style={StyleSheet.container}>
+    <ImageBackground source={image} style={styles.image}>
           <Text style={styles.greeting}>{'Hello again.\nWelcome back.'}</Text>
       <View style={styles.errorMessage}>
          {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text>}
@@ -27,31 +30,31 @@ export default class LoginScreen extends React.Component{
      
      <View style={styles.form}>
          <View>
-            <Text style={styles.inputTitle}>Email Address</Text>
-            <TextInput 
-            style={styles.input} 
+            <Input 
+            placeholder='Email Address'
             autoCapitalize="none"
             onChangeText={(email) => { this.setState({email:email})
                                        gemail = email}}
             value={this.state.email}
-            ></TextInput>
+            style={{color:'white'}}
+            ></Input>
          </View>
 
      <View style={{marginTop: 32}}>
-       <Text style={styles.inputTitle}>Password</Text>
-       <TextInput 
-       style={styles.input} 
+       <Input Password
+       placeholder='Password'
        secureTextEntry 
        autoCapitalize="none" 
        onChangeText={(password) => {this.setState({password})
                                     gpassword = password}}
        value={this.state.password}
-       ></TextInput>
+       style={{color:'white'}}
+       ></Input>
      </View>
    </View>
        
       
-    
+    </ImageBackground>
    </View>
     );
   }
@@ -62,11 +65,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  image: {
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
   greeting: {
     marginTop: 32,
     fontSize: 18,
     fontWeight:"400",
-    textAlign:"center"  
+    textAlign:"center",
+    color:'#fff'  
   },
   errorMessage: {
     height: 72,

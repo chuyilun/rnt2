@@ -11,14 +11,14 @@ export default class Routes extends Component {
         <NavigationContainer>
           <AuthStack.Navigator>
             <AuthStack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-              options={{ title:"Log in"}}
-            />
-            <AuthStack.Screen
               name="ImageBtn"
               component={ImageBtn}
               options={{ title:"ml2222"}}
+            />
+            <AuthStack.Screen
+              name="LoginScreen"
+              component={LoginScreen}
+              options={{ title:"Log in"}}
             />
             <AuthStack.Screen
               name="DrawCard"

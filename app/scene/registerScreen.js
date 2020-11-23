@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { Input } from 'react-native-elements';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import firebase from '../config';
 //config檔要記得加!!
@@ -58,34 +59,31 @@ export default class RegisterScreen extends React.Component {
 
         <View style={styles.form}>
           <View>
-            <Text style={styles.inputTitle}>Full Name</Text>
-            <TextInput
-              style={styles.input}
+            <Input
+              placeholder='Full Name'
               autoCapitalize="none"
               onChangeText={name => this.setState({ name })}
               value={this.state.name}
-            ></TextInput>
+            ></Input>
           </View>
 
           <View style={{ marginTop: 32 }}>
-            <Text style={styles.inputTitle}>Email Address</Text>
-            <TextInput
-              style={styles.input}
+            <Input
+              placeholder='Email Address'
               autoCapitalize="none"
               onChangeText={email => this.setState({ email })}
               value={this.state.email}
-            ></TextInput>
+            ></Input>
           </View>
 
           <View style={{ marginTop: 32 }}>
-            <Text style={styles.inputTitle}>Password</Text>
-            <TextInput
-              style={styles.input}
+            <Input
+              placeholder='Password'
               secureTextEntry
               autoCapitalize="none"
               onChangeText={password => this.setState({ password })}
               value={this.state.password}
-            ></TextInput>
+            ></Input>
           </View>
         </View>
 

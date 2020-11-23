@@ -9,16 +9,16 @@ export default class Routes extends Component {
       super(props);     
       this.state = {       
           images: [         
-          "https://imgur.com/CPFGvXE.png",
-          "https://imgur.com/Wrsr9YF.png",
-          "https://imgur.com/5N40hHC.png",
-          "https://imgur.com/hTGfNxv.jpg", // Network image   
+            require('../assets/photo-camera.png'),
+            require('../assets/team_0.png'),
+            require('../assets/rocket_index.png'),
+            require('../assets/lottery-game.png'), // Network image   
           ]     
       };   
     }
     render(){
         return( 
-          <View  style={ styles.container }>
+          <View  style={ { flex: 1,}}>
             <SliderBox 
               images={this.state.images}
               resizeMode = { 'contain' }

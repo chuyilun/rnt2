@@ -41,6 +41,11 @@ export default StyleSheet.create({
     height: 300, 
     // backgroundColor: 'gray',
   },
+  image1: {
+    resizeMode: 'cover',
+    justifyContent: 'center',
+    height: '100%', 
+  },
   image_d: {
     width: 350, 
     height: 350, 
@@ -68,7 +73,7 @@ export default StyleSheet.create({
   button: {
     padding: 13,
     margin: 15,
-    backgroundColor: '#dddddd',
+    alignItems: 'center',          //水平排列方式
   },
   button_d: {
     padding: 13,
