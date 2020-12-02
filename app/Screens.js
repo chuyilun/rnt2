@@ -15,25 +15,23 @@ import * as firebase from 'firebase';
 const image =  require('./assets/starsky.jpg') ;
 
 export const LoginScreen =({ navigation }) => {
-  const image =  require('./assets/starsky.jpg') ;
   
-      const [errorMessage, seterrorMessage ] = useState(null)
+  const [errorMessage, seterrorMessage ] = useState(null)
 
   function handleLogin() { //登入
 
-    // console.log(gemail)
-    // console.log(gpassword)
+    console.log(gemail)
+    console.log(gpassword)
 
     firebase
       .auth()
       .signInWithEmailAndPassword(gemail, gpassword)
       .catch(error => seterrorMessage({errorMessage: error.message}))
 
-      // console.log(email)
-      console.log(errorMessage)
+      // console.log(gemail)
+      // console.log(currentuser)
 
     if (errorMessage === null){
-      console.log('ssssss')
       global.show = false
       navigation.push('ImageBtn')
     }
@@ -58,12 +56,16 @@ export const LoginScreen =({ navigation }) => {
 export const ImageBtn = ({ navigation }) => {
     return(
     <ScreenContainer>
-      
       <View style= {{flex:1}}>
         <TopMess/>
       </View>
-      <View style= {{flex:6}}>
+      <View style= {{flex:5}}>
         <Slider/>
+      </View>
+      <View style= {{flex:1}}>
+        <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('SpecialEffects')} >
+          <Image source={require('./assets/mine2.png')} style={styles.imgiconstyle_mine}/>
+        </TouchableOpacity>
       </View>
       <View style= {{flex:6}}>
         <View style={ styles.contain}>
@@ -76,7 +78,7 @@ export const ImageBtn = ({ navigation }) => {
         </View>
         <View style={ styles.contain}>
           <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('FaceGame')} >
-            <Image source={require('./assets/rocket_index.png')} style={styles.imgiconstyle}/>
+            <Image source={require('./assets/shuttle.png')} style={styles.imgiconstyle}/>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.container2 } onPress={() => navigation.push('DrawCard')} >
             <Image source={require('./assets/lottery-game.png')} style={styles.imgiconstyle}/>

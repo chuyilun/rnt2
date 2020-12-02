@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Image, ImageBackground, Dimensions, TouchableNativeFeedback } from 'react-native';
+import { UIManager, PermissionsAndroid, Platform, ScrollView, TextInput , TouchableHighlight, ActivityIndicator} from 'react-native';
+import Carousel from 'react-native-snap-carousel';
+//import { WebView} from 'react-native-webview';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import PageScrollView from 'react-native-page-scrollview';
-import styles from '../styles/index.style';
-import firebase from '../config';
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+import Modal from 'react-native-modal';
 
+import { render } from 'react-dom';
+
+let screenWidth = Dimensions.get('window').width;
+let dialogWidth = screenWidth-80;
 
 export default class Pic extends React.Component {
 
@@ -18,30 +26,66 @@ export default class Pic extends React.Component {
       status : 'Welcome',
       choice : null,
       w: Dimensions.get('window').width,
-      style_img: 'starry_night.jpg',
-      imgArr: [
-        require('../assets/starry_night.jpg'),
-        require('../assets/caffe_night.jpg'),
-        require('../assets/lake.jpg'),
-        require('../assets/scream.jpg'),
-        require('../assets/sea.jpg'),
-        require('../assets/park.jpg'),
-        require('../assets/women.jpg'),
-        require('../assets/war.jpg')
-      ],
-      user:null,
-      email:null,
-      uid:null
+      h: Dimensions.get('window').height,
+      style_img: 'wave',
+      activeIndex:0,
+      ModalVisible:true,
+      LoadingVisible:true,
+      platform:'ios',
+      current_img: 'wave',
+      carouselItems: [
+      {
+          title:'Wave',
+          text:'wave',
+          url:  require('../assets/wave.jpg'),
+      },
+      {
+          title:"Wreck",
+          text:'wreck',
+          url:  require('../assets/wreck.jpg'),
+      },
+      {
+          title:"Scream",
+          text:'scream',
+          url:  require('../assets/scream.jpg'),
+      },
+      {
+        title:"Udnie",
+        text:'udnie',
+        url:  require('../assets/udnie.jpg'),
+      },
+      {
+        title:"La muse",
+        text:'la_muse',
+        url:  require('../assets/la_muse.jpg'),
+      },
+      {
+        title:"Rain Princess",
+        text:'rain_princess',
+        url:  require('../assets/rain_princess.jpg'),
+      },
+    ],
+      photo_uri: null,
+      isRefreshing: false
     };
   }
 
   getFetch2=()=>{
 
+    console.log(this.state.style_img);
+
+
    if(this.state.image_64 != null){
 
-    this.setState({status: 'Please Wait...'})
+    this.Loading(true);
 
-    fetch('http://120.126.18.193:5000/api', {
+    if(Platform.OS === 'android')
+       this.setState({platform:'android'})
+    if(Platform.OS === 'ios')
+       this.setState({platform:'ios'})
+       
+
+    fetch('http://172.31.224.252:5000/api', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -50,12 +94,14 @@ export default class Pic extends React.Component {
       body: JSON.stringify({
         fetch_img_64: this.state.image_64,
         user_choice: this.state.choice,
+        platform_use: this.state.platform,
         style_img: this.state.style_img
       })
     }).then(response =>
       response.json().then(data => {
         console.log("success fetch :",data);
-        this.setState({image: data.result , status: 'Welcome!'});
+        this.setState({image: data.result_img , status: 'Welcome!'});
+        this.Loading(false);
 
       })
     );
@@ -74,7 +120,7 @@ export default class Pic extends React.Component {
        allowsEditing: true,
        base64: true,
     });
-    if (!cancelled) this.setState({ image: uri , image_64: base64, choice: 'album'});
+    if (!cancelled) this.setState({ image: uri , image_64: base64, choice: 'album' ,ModalVisible:false });
     console.log("image uri from phone:",this.state.image);
    // console.log("image uri base64 from phone:",this.state.image_64);
   };
@@ -86,127 +132,196 @@ export default class Pic extends React.Component {
       allowsEditing: false,
       base64: true,
     });
-    this.setState({ image: uri , image_64: base64 , choice: 'camera'});
+    if(!cancelled) this.setState({ image: uri , image_64: base64 , choice: 'camera', ModalVisible:false });
     console.log("image uri from camera:",this.state.image);
   };
 
-  openCamera=()=>{
+  _downloadFile = async () => {
 
-    const options = {
-      title:null,
-      cancelButtonTitle:'取消',
-      takePhotoButtonTitle:'拍照',
-      chooseFromLibraryButtonTitle:'選擇相冊',
-      quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500/16*9,
-      storageOptions: {
-          skipBackup: true
-      },
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    await Permissions.askAsync(Permissions.CAMERA);
+
+     //permission for camera_roll
+    if (status === "granted") {
+
+       //store the cached file
+
+       let gifDir = null;
+
+       if(Platform.OS === 'android')
+          gifDir = FileSystem.cacheDirectory;  //Directory: Android用 cacheDirectory 
+       else if(Platform.OS === 'ios')    
+          gifDir = FileSystem.documentDirectory; //iOS用 documentDirectory
+
+       const dirInfo = await FileSystem.getInfoAsync(gifDir);
+       if (!dirInfo.exists) {
+         try{
+         console.log('download directory doesn\'t exist, creating...');
+         await FileSystem.makeDirectoryAsync(gifDir, { intermediates: true });
+         } catch(e) {
+           const Info = await FileSystem.getInfoAsync(gifDir);
+           console.log("ERROR",e,Info);
+         }
+       } 
+       
+       console.log('INNNNN',gifDir,dirInfo);
+    
+       const file = await FileSystem.downloadAsync(this.state.image , gifDir+'photo.jpg');
+
+       console.log('Filedownloaded!!', file);
+       alert('已儲存相片!');
+
+       //save the image in the galery using the link of the cached file
+       const assetLink = await MediaLibrary.createAssetAsync(file.uri);
+      // await MediaLibrary.createAlbumAsync('Planet', assetLink);
+       alert('已儲存至',assetLink);
+      
+       console.log('done!');
+
     }
-    //在ImagePicker組件的launchCamera方法中，加入options參數，就可將圖片壓縮爲options中相應像素的照片
-    ImagePicker.launchCamera(options, (response) => {
-      if (response.didCancel) {
-          return;
-      } else {
-          console.log(response);
-      }
-   });
-  }
+    else{
+      console.log('No Permission');
+    }
+  };
 
-  get_data=()=>{ //取得使用者名稱
-
-    var user = firebase.auth().currentUser;
-    if (user != null) { this.setState({email: user.email , uid: user.uid}) };
-    var firebaseRef =  firebase.database().ref('/users/' + user.uid + '/username');
-
-    firebaseRef.on('value', snapshot => {
-      this.setState({
-        user : snapshot.val()
-      })
-      //console.log('firebase',snapshot.val);
-     });
-
-    //console.log('user', this.state.user);
- 
-  }
-
- // <Image style={styles.Pic_image} source={{ uri: this.state.image}} />
   //<Image style={styles.image} source={{ uri: 'data:image/jpeg;base64,'+this.state.image_64}} />
+
+  _onPressCarousel =()=> {
+
+    var img_index = this.state.carouselItems[this.carousel.currentIndex].text;
+
+    setTimeout(()=>{
+      this.setState({style_img: img_index});
+    },0);
+
+    console.log('style2:',this.state.style_img);
+
+  }
+
+  _renderItem=({item,index})=>{
+
+    return (
+
+      <View  style={{
+        paddingTop:'5%',
+        paddingBottom:'5%',
+        borderRadius: 5,
+        backgroundColor:'white',
+        alignItems:'center',}}>
+      <View style={{ width: 190 , borderStyle:'solid' , borderColor:'gray',
+                     borderWidth:2 , borderRadius: 15 , alignItems:'center', justifyContent:'center'}}>
+       <TouchableOpacity style={{backgroundColor:'white'}} onPress={this._onPressCarousel} >
+        <Image source={item.url} style={{
+          borderRadius: 15,
+          width: 180,
+          flex:1,
+          backgroundColor:'white'
+        }}></Image>
+       </TouchableOpacity>
+        <Text style={{fontSize: 13 , fontWeight:'bold',flex:1}}>{item.title}</Text>
+       </View>       
+      </View>
+
+    )
+  }
+
+  setModalVisible(visible){
+    this.setState({ModalVisible:visible});
+  }
+  
+  Loading (Visible){
+
+      if(Visible === true)
+      {
+          return(
+              <View style={{alignItems:'center', padding:15}}> 
+                   <ActivityIndicator />
+                   <Text>Loading...</Text>
+              </View>
+           );
+      }
+      else
+      {
+        return(<View/>);
+      }
+
+      
+    
+  }
 
   render() {
     return (
-    <View style={styles.Pic_container}>
-      <View style={styles.container_pic}>
-         <TouchableOpacity style={styles.Pic_button} onPress={this.get_data}>
-            <Text style={styles.text}>{this.state.user}</Text>
-          </TouchableOpacity>
-        <View style={styles.contain}>
-          <TouchableOpacity style={styles.Pic_button} onPress={this.selectPicture}>
-            <Text style={styles.text}>Gallery</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.Pic_button} onPress={this.takePicture}>
-            <Text style={styles.text}>Camera</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.Pic_button} onPress= {this.getFetch2} >
-            <Text style={styles.text}>Upload!</Text>
-          </TouchableOpacity>
-        </View>
-        <Text>{this.state.status},</Text>
+     <View style={Styles.container}>
+    <ImageBackground source={require('../assets/background.jpg')} style={{flex: 4}}>
+     <View style={{flex:1}}>
+      <View style={Styles.row}>
+      <TouchableOpacity style={{alignItems:'center'}} onPress={()=> this.setModalVisible(true)}>
+          <Image source={require('../assets/choice.png')} style={{width:110,resizeMode:'contain'}}></Image>
+      </TouchableOpacity>
+      <TouchableOpacity style={{alignItems:'center',marginLeft:'45%'}} onPress={this._downloadFile}>
+          <Image source={require('../assets/save.png')} style={{width:110,resizeMode:'contain'}}></Image>
+      </TouchableOpacity>
       </View>
-      <PageScrollView
-       style={{width:this.state.w, height: this.state.w/16*9,flex:3}}
-       builtinStyle= 'rotateChangeMode'
-       builtinWH={{width:250, height:250/16*9}}
-       imageArr={this.state.imgArr}
-       ifAutoScroll={false}
-       dealWithClickImage={
-         (index)=>{
-           //点击图片时需要执行的操作,index为当前点击到的图片的索引
-           if(index==0)
-           {
-             this.setState({style_img:'starry_night.jpg',status:'梵谷《星空》'})
-            // this.state.imgArr.map((data,index) => {})
-           }
-           else if(index==1)
-             this.setState({style_img:'caffe_night.jpg',status:'《夜晚的咖啡座》'})
-           else if(index==2)
-             this.setState({style_img:'lake.jpg',status:'《湖》'})
-           else if(index==3)
-             this.setState({style_img:'scream.jpg',status:'《吶喊》'})
-           else if(index==4)
-             this.setState({style_img:'sea.jpg',status:'《波濤洶湧》'})
-           else if(index==5)
-             this.setState({style_img:'park.jpg',status:'《公園》'});
-           else if(index==6)
-             this.setState({style_img:'women.jpg',status:'《戴珍珠耳環的少女》'});
-           else if(index==7)
-             this.setState({style_img:'war.jpg',status:'《世紀大戰爭》'});
-   
-         }
-       }
-       currentPageChangeFunc={
-         (currentPage)=>{
+    </View>
+        <Modal isVisible={this.state.ModalVisible} animationType={'fade'}>
+         
+          <View style={{backgroundColor:'#47517d',borderRadius:10,alignItems:'center'}}>
+            <View style={{padding: 13,margin: 25, backgroundColor:'#fa6898', height:50, width:this.state.w*0.9, alignItems:'center'}}>
+              <Text style={{alignItems:'center',fontSize:20 ,color: 'white',fontWeight:'bold'}}>選擇開啟相簿或直接拍照！</Text>
+            </View>
+            <TouchableOpacity style={{alignItems:'center',borderRadius:10}} onPress={this.selectPicture}>
+               <Image source={require('../assets/gallery.png')}></Image>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ alignItems:'center',borderRadius:10}} onPress={this.takePicture}>
+               <Image source={require('../assets/camera.png')}></Image>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ padding: 13,margin: 15, alignItems:'center'}} onPress={()=> this.setModalVisible(false)}>
+               <Text style={{paddingLeft:'85%',color:'white',fontSize:16}}>離開</Text>
+            </TouchableOpacity>
+          </View>
+          
+        </Modal>
+      
+       <View style={{alignItems: 'center',justifyContent: 'center' , flex:4}}>
+        <View style={{width: this.state.w*0.77, borderWidth:4 , borderColor:'#F3B9C8',flex:1}}>
+        <Image style={{width: this.state.w*0.75 ,  backgroundColor: 'white',flex:1}} source={{ uri: this.state.image}} />
+        </View>
+        <View style={Styles.row}>
+          <TouchableOpacity style={{}} onPress= {this.getFetch2} >
+             <Image source={require('../assets/transfer.png')} style={{paddingTop:5}}></Image>
+          </TouchableOpacity> 
+        </View>   
+       </View>
+      
+      </ImageBackground>
 
-        if(currentPage==0)
-           this.setState({status:'梵谷《星空》'})
-        else if(currentPage==1)
-          this.setState({status:'《夜晚的咖啡座》'})
-        else if(currentPage==2)
-          this.setState({status:'《湖》'})
-        else if(currentPage==3)
-          this.setState({status:'《吶喊》'})
-        else if(currentPage==4)
-          this.setState({status:'《波濤洶湧》'})
-        else if(currentPage==5)
-          this.setState({status:'《公園》'});  
-        else if(currentPage==6)
-          this.setState({status:'《戴珍珠耳環的少女》'});  
-        else if(currentPage==7)
-          this.setState({status:'《世紀大戰爭》'});  
+      <View style={{backgroundColor:'white',flex:1 }}>
 
-       }}  />
+       <View style={{ flexDirection:'row', justifyContent: 'center', alignItems:'center'}}> 
+         <Carousel
+            layout={"default"}
+            loop = {true}
+            inactiveSlideOpacity={0.5}
+            ref={ref => this.carousel = ref}
+            data={this.state.carouselItems}
+            sliderWidth={250}
+            itemWidth={250}
+            renderItem={this._renderItem}
+            onSnapToItem = { (index)=>{this.setState({activeIndex:index, current_img: this.state.carouselItems[this.carousel.currentIndex].title })} } />
+       </View> 
+      </View>
     </View>
     )
   }
 }
+
+const Styles = StyleSheet.create({
+  container: {
+    flex:1,
+    justifyContent: 'center'
+  },
+  row: {
+    flexDirection: 'row'
+  },
+})

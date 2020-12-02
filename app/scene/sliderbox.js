@@ -11,14 +11,15 @@ export default class Routes extends Component {
           images: [         
             require('../assets/photo-camera.png'),
             require('../assets/team_0.png'),
-            require('../assets/rocket_index.png'),
-            require('../assets/lottery-game.png'), // Network image   
+            require('../assets/shuttle.png'),
+            require('../assets/lottery-game.png'),
+            require('../assets/datinghoney.png'), // Network image   
           ]     
       };   
     }
     render(){
         return( 
-          <View  style={ { flex: 1,}}>
+          <View>
             <SliderBox 
               images={this.state.images}
               resizeMode = { 'contain' }

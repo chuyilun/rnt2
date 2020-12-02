@@ -60,6 +60,7 @@ export default class RegisterScreen extends React.Component {
         <View style={styles.form}>
           <View>
             <Input
+              style ={{color:'white'}}
               placeholder='Full Name'
               autoCapitalize="none"
               onChangeText={name => this.setState({ name })}
@@ -69,6 +70,7 @@ export default class RegisterScreen extends React.Component {
 
           <View style={{ marginTop: 32 }}>
             <Input
+              style ={{color:'white'}}
               placeholder='Email Address'
               autoCapitalize="none"
               onChangeText={email => this.setState({ email })}
@@ -78,6 +80,7 @@ export default class RegisterScreen extends React.Component {
 
           <View style={{ marginTop: 32 }}>
             <Input
+              style ={{color:'white'}}
               placeholder='Password'
               secureTextEntry
               autoCapitalize="none"

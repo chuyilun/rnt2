@@ -6,14 +6,14 @@ import 'firebase/storage';
 //firebase config
 
 var firebaseConfig = {
-  apiKey: "AIzaSyCu1ZoT3HnM-eC3dpaMc3yAIO_S4B6pdNM",
-  authDomain: "my-project-e9334.firebaseapp.com",
-  databaseURL: "https://my-project-e9334.firebaseio.com",
-  projectId: "my-project-e9334",
-  storageBucket: "my-project-e9334.appspot.com",
-  messagingSenderId: "783734911848",
-  appId: "1:783734911848:web:5a1d1205cb1bf8ec8e1cdd",
-  measurementId: "G-N3KZRQRLT5"
+  apiKey: "AIzaSyBQfOvmVH0QnY1_CDUtn72h02hx03-j3Qk",
+  authDomain: "ml2020-46722.firebaseapp.com",
+  databaseURL: "https://ml2020-46722.firebaseio.com",
+  projectId: "ml2020-46722",
+  storageBucket: "ml2020-46722.appspot.com",
+  messagingSenderId: "125472571030",
+  appId: "1:125472571030:web:5f1fe0d31bf0137bd18cb7",
+  measurementId: "G-19KLDW37CC"
 };
 
 firebase.initializeApp(firebaseConfig);

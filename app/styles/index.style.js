@@ -30,6 +30,10 @@ export default StyleSheet.create({
     height: 100,
     width: 100,
   },
+  imgiconstyle_mine: {
+    flex: 1,
+    resizeMode: 'contain',
+  },
   container_pic: {
     flex: 1,
     backgroundColor: '#ffffff',
