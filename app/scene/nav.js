@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { ImageBtn, SpecialEffects, FaceGame, Compare, DrawCard, LoginScreen, RegisterScreen } from '../Screens.js';
+import { ImageBtn, SpecialEffects, FaceGame, DrawCard, LoginScreen, RegisterScreen, Document_go, Result_go, planet, socket } from '../Screens.js';
 
 const AuthStack = createStackNavigator();
 
@@ -21,6 +21,16 @@ export default class Routes extends Component {
               options={{ title:"FacePlanet"}}
             />
             <AuthStack.Screen
+              name="Document_go"
+              component={Document_go}
+              options={{ title:""}}
+            />
+             <AuthStack.Screen
+              name="Result_go"
+              component={Result_go}
+              options={{ title:""}}
+            />
+            <AuthStack.Screen
               name="DrawCard"
               component={DrawCard}
               options={{ title:"抽抽"}}
@@ -36,14 +46,19 @@ export default class Routes extends Component {
               options={{ title:"Special you are!"}}
             />
             <AuthStack.Screen
-              name="Compare"
-              component={Compare}
-              options={{ title:"Special you are!"}}
-            />
-            <AuthStack.Screen
               name="RegisterScreen"
               component={RegisterScreen}
               options={{ title:"Register"}}
+            />
+            <AuthStack.Screen
+              name="planet"
+              component={planet}
+              options={{ title:"我的宇宙"}}
+            />
+            <AuthStack.Screen
+              name="socket"
+              component={socket}
+              options={{ title:"Face To Face"}}
             />
           </AuthStack.Navigator>
         </NavigationContainer>

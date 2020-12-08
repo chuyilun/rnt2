@@ -29,6 +29,7 @@ export default StyleSheet.create({
     margin: 5,
     height: 100,
     width: 100,
+    resizeMode:'contain',
   },
   imgiconstyle_mine: {
     flex: 1,

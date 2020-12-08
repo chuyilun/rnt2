@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Input } from 'react-native-elements';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import firebase from '../config';
+// import { useNavigation } from '@react-navigation/native';
 //config檔要記得加!!
 
 export default class RegisterScreen extends React.Component {
@@ -13,10 +14,13 @@ export default class RegisterScreen extends React.Component {
     Password: "",
     errorMessage: null,
     high_score:0,
-    coin:0
+    coin:0,
+    type:""
   }
 
   handleSignup = () => { //註冊
+    // const navigation  =  useNavigation();
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -37,8 +41,10 @@ export default class RegisterScreen extends React.Component {
             pd: this.state.password,
             email: this.state.email,
             high_score:this.state. high_score,
-            coin:this.state.coin
+            coin:this.state.coin,
+            type:"NO"
           });
+          // navigation.push('ImageBtn')
       } else {
         // User not logged in or has just logged out.
       }
@@ -94,8 +100,6 @@ export default class RegisterScreen extends React.Component {
           <Text style={{ color: "#FFF", fontWeight: "500" }}>Sign up</Text>
         </TouchableOpacity>
 
-
-
       </View>
     );
   }
@@ -112,7 +116,8 @@ const styles = StyleSheet.create({
     marginTop: 32,
     fontSize: 18,
     fontWeight: "400",
-    textAlign: "center"
+    textAlign: "center",
+    color:'white'
   },
   errorMessage: {
     height: 72,

@@ -9,10 +9,9 @@ export default class Routes extends Component {
       super(props);     
       this.state = {       
           images: [         
-            require('../assets/photo-camera.png'),
-            require('../assets/team_0.png'),
-            require('../assets/shuttle.png'),
-            require('../assets/lottery-game.png'),
+            require('../assets/slider_1.jpg'),
+            require('../assets/slider_2.jpg'),
+            require('../assets/slider_3.jpg'),
             require('../assets/datinghoney.png'), // Network image   
           ]     
       };   

@@ -191,6 +191,7 @@ export default class App extends Component {
         // this.de_coin();
         this.update_coin();
         this.ShowCurrentDate();
+        var user = firebases.auth().currentUser;
 
         if (this.state.coin < 1) {
             Alert.alert('對話視窗', '你沒金幣了，要不要加值呢?')
@@ -329,15 +330,15 @@ export default class App extends Component {
 
 
 
-     componentWillMount = () => {
+    //  componentWillMount = () => {
          
-        this.get_data();
-        this.setState({user : ""});
-     }
+    //  }
  
  
      componentDidMount() {
         this.get_coin();
+        this.get_data();
+        this.setState({user : ""});
      }
 
 

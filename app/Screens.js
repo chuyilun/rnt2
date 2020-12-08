@@ -5,12 +5,15 @@ import styles, { colors } from './styles/index.style';
 import Slider from './scene/sliderbox';
 import Pic from './scene/pic';
 import Game from './scene/game';
-import FaceCompare from './scene/faceCompare';
 import Draw from './scene/drawCard';
 import TopMess from './scene/topMess';
-import Register from './scene/registerScreen';
+import Register from './scene/RegisterScreen';
 import Login from './scene/loginScreen';
+import MyPlanet from './scene/Myplanet';
 import * as firebase from 'firebase';
+import GoTo from "./scene/Document";
+import GoHome from "./scene/Result";
+import Socketmap from "./scene/socketmapp";
   
 const image =  require('./assets/starsky.jpg') ;
 
@@ -33,7 +36,25 @@ export const LoginScreen =({ navigation }) => {
 
     if (errorMessage === null){
       global.show = false
-      navigation.push('ImageBtn')
+
+      var user = firebase.auth().currentUser;
+      // console.log(user.type)
+      //  if (user != null) { this.setState({email: user.email , uid: user.uid}) };
+      var firebaseRef =  firebase.database().ref('/users/' + user.uid + '/type');
+  
+      firebaseRef.on('value', snapshot => {
+        console.log(snapshot.val());
+        if(snapshot.val()=== "NO"){
+
+          navigation.push('Document_go');
+        }
+        else if(global.result && global.big_open){
+          navigation.push('Result_go');
+        }else{
+          navigation.push('ImageBtn');
+        }
+        
+       }); 
     }
   };
   return(
@@ -54,6 +75,15 @@ export const LoginScreen =({ navigation }) => {
 };
 
 export const ImageBtn = ({ navigation }) => {
+    var user = firebase.auth().currentUser;
+    var usernname;
+    
+    var firebaseRef =  firebase.database().ref('/users/' + user.uid + '/username');
+    firebaseRef.on('value', snapshot => {
+      console.log(snapshot.val());
+      usernname=snapshot.val();
+     }); 
+
     return(
     <ScreenContainer>
       <View style= {{flex:1}}>
@@ -62,26 +92,28 @@ export const ImageBtn = ({ navigation }) => {
       <View style= {{flex:5}}>
         <Slider/>
       </View>
-      <View style= {{flex:1}}>
-        <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('SpecialEffects')} >
+      <View style= {{flex:2, alignItems: 'center'}}>
+        <Text style={{color:'white', fontSize: 20}}>{usernname}歡迎回來</Text>
+        <Text></Text>
+        <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('planet')} >
           <Image source={require('./assets/mine2.png')} style={styles.imgiconstyle_mine}/>
         </TouchableOpacity>
       </View>
       <View style= {{flex:6}}>
         <View style={ styles.contain}>
+          <TouchableOpacity style={ styles.container2 } onPress={() => navigation.push('DrawCard')} >
+            <Image source={require('./assets/lottery-game.png')} style={styles.imgiconstyle}/>
+          </TouchableOpacity>
           <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('SpecialEffects')} >
             <Image source={require('./assets/photo-camera.png')} style={styles.imgiconstyle}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={ styles.container2 } onPress={() => navigation.push('Compare')} >
-            <Image source={require('./assets/team_0.png')} style={styles.imgiconstyle}/>
           </TouchableOpacity>
         </View>
         <View style={ styles.contain}>
           <TouchableOpacity style={ styles.container1 } onPress={() => navigation.push('FaceGame')} >
             <Image source={require('./assets/shuttle.png')} style={styles.imgiconstyle}/>
           </TouchableOpacity>
-          <TouchableOpacity style={ styles.container2 } onPress={() => navigation.push('DrawCard')} >
-            <Image source={require('./assets/lottery-game.png')} style={styles.imgiconstyle}/>
+          <TouchableOpacity style={ styles.container2 } onPress={() => navigation.push('socket')} >
+            <Image source={require('./assets/map.png')} style={styles.imgiconstyle}/>
           </TouchableOpacity>
         </View> 
       </View>
@@ -108,10 +140,26 @@ export const ImageBtn = ({ navigation }) => {
     );
   };
 
+  export const planet =({ navigation }) => {
+    return(
+      <ScreenContainer>
+          <MyPlanet/>
+      </ScreenContainer>
+    );
+  };
+
   export const DrawCard =({ navigation }) => {
     return(
       <ScreenContainer>
           <Draw/>
+      </ScreenContainer>
+    );
+  };
+  
+  export const socket =({ navigation }) => {
+    return(
+      <ScreenContainer>
+          <Socketmap/>
       </ScreenContainer>
     );
   };
@@ -132,13 +180,22 @@ export const ImageBtn = ({ navigation }) => {
     );
   };
 
-  export const Compare =({ navigation }) => {
+  export const Document_go =({ navigation }) => {
     return(
       <ScreenContainer>
-        <FaceCompare/>
+        <GoTo/>
       </ScreenContainer>
     );
   };
+
+  export const Result_go =({ navigation }) => {
+    return(
+      <ScreenContainer>
+        <GoHome/>
+      </ScreenContainer>
+    );
+  };
+
 
   const ScreenContainer = ({ children }) => (
     <View style={{flex: 1}}><ImageBackground source={image} style={styles.image1}>{children}</ImageBackground></View>

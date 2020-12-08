@@ -100,6 +100,7 @@ export default class game extends Component {
                       ref={( ref ) => {this.gameEngine =ref;}}
                       systems={[Physics, Trajectory]}
                       running = { this.state.running }
+                      onEvent={this.onEvent}
                       entities={this.entities}>
                   </GameEngine>
                   <Text style={styles.score}>{this.state.score}</Text>

@@ -18,7 +18,7 @@ import { ThemeProvider } from "@react-navigation/native";
     }
   }
  
-  componentWillMount = () => {
+  componentDIdMount = () => {
 
     //console.log('STARTTTTT');
 
