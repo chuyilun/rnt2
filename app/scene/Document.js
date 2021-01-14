@@ -70,10 +70,12 @@ let dialogWidth = screenWidth-80;
   }
 
   document_pick= async () => {
+
+   if(Platform.OS === 'android'){
     let result = await DocumentPicker.getDocumentAsync({type:'video/*'});
     this.setState({v_result:result , v_name:result.name})
     console.log(this.state.v_result);
-    aazz = this.state.v_result;
+    //aazz = this.state.v_result;
 
     let formData = new FormData();
     formData.append("videoFile", {
@@ -84,7 +86,13 @@ let dialogWidth = screenWidth-80;
 
     this.setState({form_data:formData});
    
-  console.log(this.state.form_data);
+    console.log(this.state.form_data);
+
+   }
+   else if(Platform.OS === 'ios')
+   {
+
+   }
      
   };
 
@@ -111,7 +119,7 @@ let dialogWidth = screenWidth-80;
        this.setState({platform:'ios'})
        
 
-    fetch('http://172.20.10.2:5000/docu', options).then(response =>
+    fetch('http://4669e877b915.ngrok.io/docu', options).then(response =>
       response.json().then(data => {
         console.log("success fetch :",data);
         console.log("外向性 :",data.extra);
@@ -213,7 +221,6 @@ const styles = StyleSheet.create({
   )
   
  }
-
 
 // export const Result_goto =({ navigation }) => {
 //   return(

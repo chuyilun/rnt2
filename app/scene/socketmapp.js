@@ -5,7 +5,8 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import io from 'socket.io-client';
 
 
-const socketURL = 'http://172.20.10.4:3000'
+const socketURL = 'http://3eded78b51be.ngrok.io'
+// const socketURL = 'http://192.168.43.59:3000'
 
 // Ingnore warning timer on Android simulator
 console.ignoredYellowBox = ['Setting a timer'];
@@ -102,8 +103,8 @@ let screenHeight = Dimensions.get('window').height;
             >
               <MapView.Marker
                   coordinate={{
-                    latitude: 25.034958316223577,
-                    longitude: 121.38934733979367,
+                    latitude: 25.034577925997738,
+                    longitude: 121.38894989763747,
                   }}
                   title={"ME"}
                   description={ccee}
@@ -174,7 +175,7 @@ export default function GoHome() {
       <View style={{flex:3}}>
          
       <View style={{backgroundColor:'transparent',height:screenHeight*0.05}}> 
-          <TouchableOpacity style={{alignItems: "center", backgroundColor:'gray', height:screenHeight*0.05} } onPress={()=> navigation.push('ImageBtn')}>
+          <TouchableOpacity style={{alignItems: "center", backgroundColor:'gray', height:screenHeight*0.05} } onPress={()=> navigation.push('map')}>
               <Text style={{fontSize:20,color:'white'}}>點擊進入景點評論</Text>
           </TouchableOpacity>
       </View>

@@ -14,6 +14,7 @@ import * as firebase from 'firebase';
 import GoTo from "./scene/Document";
 import GoHome from "./scene/Result";
 import Socketmap from "./scene/socketmapp";
+import MessMap from "./scene/socketmap";
   
 const image =  require('./assets/starsky.jpg') ;
 
@@ -164,6 +165,15 @@ export const ImageBtn = ({ navigation }) => {
     );
   };
   
+  
+  export const map =({ navigation }) => {
+    return(
+      <ScreenContainer>
+          <MessMap/>
+      </ScreenContainer>
+    );
+  };
+
   export const SpecialEffects =({ navigation }) => {
     return(
       <ScreenContainer>

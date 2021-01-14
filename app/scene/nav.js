@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { ImageBtn, SpecialEffects, FaceGame, DrawCard, LoginScreen, RegisterScreen, Document_go, Result_go, planet, socket } from '../Screens.js';
+import { ImageBtn, SpecialEffects, FaceGame, DrawCard, LoginScreen, RegisterScreen, Document_go, Result_go, planet, socket, map } from '../Screens.js';
 
 const AuthStack = createStackNavigator();
 
@@ -59,6 +59,11 @@ export default class Routes extends Component {
               name="socket"
               component={socket}
               options={{ title:"Face To Face"}}
+            />
+            <AuthStack.Screen
+              name="map"
+              component={map}
+              options={{ title:"Leave Your Message"}}
             />
           </AuthStack.Navigator>
         </NavigationContainer>

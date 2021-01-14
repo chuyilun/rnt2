@@ -85,7 +85,7 @@ export default class Pic extends React.Component {
        this.setState({platform:'ios'})
        
 
-    fetch('http://172.31.224.252:5000/api', {
+    fetch('http://4669e877b915.ngrok.io/api', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
