@@ -84,8 +84,8 @@ export default class Pic extends React.Component {
     if(Platform.OS === 'ios')
        this.setState({platform:'ios'})
        
-
-    fetch('http://4669e877b915.ngrok.io/api', {
+/////////////////////改這裡
+    fetch('http://16786052cf4a.ngrok.io/api', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -5,7 +5,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import io from 'socket.io-client';
 
 
-const socketURL = 'http://3eded78b51be.ngrok.io'
+const socketURL = 'http://2c0a98e387af.ngrok.io'
 // const socketURL = 'http://192.168.43.59:3000'
 
 // Ingnore warning timer on Android simulator

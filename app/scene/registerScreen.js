@@ -14,8 +14,8 @@ export default class RegisterScreen extends React.Component {
     Password: "",
     errorMessage: null,
     high_score:0,
-    coin:0,
-    type:""
+    coin:100,
+    type:"盡責星人"
   }
 
   handleSignup = () => { //註冊
@@ -42,7 +42,7 @@ export default class RegisterScreen extends React.Component {
             email: this.state.email,
             high_score:this.state. high_score,
             coin:this.state.coin,
-            type:"NO"
+            type:"盡責星人"
           });
           // navigation.push('ImageBtn')
       } else {

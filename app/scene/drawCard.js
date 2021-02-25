@@ -111,7 +111,6 @@ export default class App extends Component {
         firebase
             .auth()
             .signInWithEmailAndPassword(gemail, gpassword)
-            .catch(error => seterrorMessage({errorMessage: error.message}))
         
         // if (user != null) { this.setState({email: user.email , uid: user.uid}) };
         var firebaseRef =  firebases.database().ref('/users/' + user.uid + '/username');
